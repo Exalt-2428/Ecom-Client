@@ -14,8 +14,8 @@ const SuperAdmin = () => {
 
   useEffect(() => {
     if (!loading) {
-      if (!isSuperAdmin && pathname !== '/profile') {
-        router.push('/profile');
+      if (!isSuperAdmin && pathname !== '/my-account') {
+        router.push('/my-account');
       }
     }
   }, [loading, isSuperAdmin, pathname]);

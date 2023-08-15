@@ -37,7 +37,7 @@ const SuperAdmin = () => {
         await addAdmin(newAdmin);
         
         // Optionally, reset the form to the initial state after submission
-        // setNewAdmin({ firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: '' });
+        setNewAdmin({ firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: '' });
       };
 
 
@@ -46,14 +46,14 @@ const SuperAdmin = () => {
       <Header />
       <SuperAdminHeader />
       <div className="flex items-center justify-center h-screen bg-blue-500">
-        <div className="box-container mx-auto p-8 bg-white rounded-lg">
-          <h1 className="text-2xl font-semibold mb-4">Create New Admin</h1>
+        <div className="box-container mx-auto p-8 bg-white rounded-lg w-96">
+          <h1 className="text-2xl text-center font-semibold mb-4">Create New Admin</h1>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-2"> 
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-600">First Name</label>
               <input type="text" name="firstName" value={newAdmin.firstName} onChange={handleInputChange} className="mt-1 p-2 w-full border rounded-md" />
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-600">Last Name</label>
                 <input type="text" name="lastName" value={newAdmin.lastName} onChange={handleInputChange} className="mt-1 p-2 w-full border rounded-md" />
             </div>
@@ -73,9 +73,11 @@ const SuperAdmin = () => {
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-600">Confirm Password</label>
                 <input type="password" name="confirmPassword" value={newAdmin.confirmPassword} onChange={handleInputChange} className="mt-1 p-2 w-full border rounded-md" />
             </div>
-            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+            <div className="flex justify-center">
+            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800">
               Create Admin
             </button>
+            </div>
           </form>
         </div>
       </div>

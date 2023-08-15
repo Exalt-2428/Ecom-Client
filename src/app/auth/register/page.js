@@ -19,7 +19,7 @@ const Register = () => {
     }, [success]);
 
     useEffect(() => {
-        if (user) router.push('/profile');
+        if (user) router.push('/my-account');
     }, [user]);
 
     const handleSubmit = async (e) => {

@@ -1,21 +1,21 @@
 'use client';
 import React, { useState, useContext, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation'; // corrected the import statement
-import { AuthContext } from '../../../context/AuthContext';
-import Header from '../../../components/Layout/Header';
+import { AuthContext } from '@/context/AuthContext';
+import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
 import { Icon } from '@iconify/react';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { user, loading, login, error, success, isSuperAdmin, isLoggedIn } = useContext(AuthContext);
+    const { user, loading, login, error, success } = useContext(AuthContext);
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        if (user && pathname !== '/profile') {
-            router.push('/profile');
+        if (user && pathname !== '/my-account') {
+            router.push('/my-account');
         }
     }, [user, pathname]);
 
@@ -27,7 +27,7 @@ const Login = () => {
         e.preventDefault();
         const loggedIn = await login(email, password);
         if (loggedIn) {
-            router.push('/profile');
+            router.push('/my-account');
         }
     };
 
