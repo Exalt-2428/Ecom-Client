@@ -1,7 +1,6 @@
 'use client';
 import React, { createContext, useState, useEffect } from 'react';
 import api, { setAuthToken, getAuthToken, removeAuthToken } from '../utils/api';
-import { handleApiError } from '../utils/errorHandler';
 
 export const AuthContext = createContext();
 
@@ -9,7 +8,8 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // true initially
+    const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -17,13 +17,12 @@ export const AuthProvider = ({ children }) => {
                 const token = getAuthToken();
                 if (token) {
                     setAuthToken(token);
-                    setLoading(true);
                     const res = await api.get('/users/me');
                     setUser(res.data);
-                    setLoading(false);
+                    setIsSuperAdmin(res.data.isSuperAdmin); // Set the isSuperAdmin state
                 }
             } catch (error) {
-                handleApiError(error);
+                console.log(error);
             } finally {
                 setLoading(false);
             }
@@ -40,11 +39,13 @@ export const AuthProvider = ({ children }) => {
             }
             setAuthToken(res.data.token);
             setUser(res.data.user);
+            return true;
         } catch (error) {
             if (error.response) {
                 setError(error.response.data.msg);
             }
-            handleApiError(error);
+            console.log(error);
+            return false;
         } finally {
             setLoading(false);
         }
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }) => {
         try {
             await api.post('/users/logout');
         } catch (error) {
-            handleApiError(error);
+            console.log(error);
         }
         setUser(null);
         removeAuthToken();
@@ -74,13 +75,35 @@ export const AuthProvider = ({ children }) => {
             if (error.response) {
                 setError(error.response.data.msg);
             }
-            handleApiError(error);
+            console.log(error);
         }
         setLoading(false);
     };
 
+    const isLoggedIn = async () => {
+        setLoading(true);
+        try {
+            const token = getAuthToken();
+            console.log(token);
+            const res = await api.get('/users/check/');
+            if (res.data.loggedIn) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return false;
+        }
+        finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, register, error, success }}>
+        <AuthContext.Provider value={{ user, loading, login, logout, register, error, success, isSuperAdmin, isLoggedIn }}>
             {children}
         </AuthContext.Provider>
     );

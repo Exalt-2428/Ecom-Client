@@ -1,25 +1,26 @@
 "use client";
 import React, { useContext, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
 import Header from "../../components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 
 const SuperAdmin = () => {
-  const { user, loading } = useContext(AuthContext);
-  const router = useRouter();
+  const { loading, isSuperAdmin } = useContext(AuthContext);
+    const router = useRouter();
+    const pathname = usePathname();
 
-  useEffect(() => {
-      if (!user) router.push('/auth/login');
-  }, [user]);
+    useEffect(() => {
+        if (!loading) {
+            if (!isSuperAdmin && pathname !== '/profile') {
+                router.push('/profile');
+            }
+        }
+    }, [loading, isSuperAdmin, pathname]);
 
-  useEffect(() => {
-        if (user && !user.isSuperAdmin) router.push('/profile');
-    }, [user]);
-
-  if (loading) {
-      return <h1>Loading...</h1>
-  }
+    if (loading) {
+        return <h1>Loading...</h1>
+    }
 
   return (
     <>

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useContext, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // corrected the import statement
+import { useRouter, usePathname } from 'next/navigation'; // corrected the import statement
 import { AuthContext } from '../../../context/AuthContext';
 import Header from '../../../components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
@@ -9,21 +9,27 @@ import { Icon } from '@iconify/react';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { user, loading, login, error, success } = useContext(AuthContext);
+    const { user, loading, login, error, success, isSuperAdmin, isLoggedIn } = useContext(AuthContext);
     const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
-        if (user) router.push('/profile');
-    }, [user]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await login(email, password);
-    };
+        if (user && pathname !== '/profile') {
+            router.push('/profile');
+        }
+    }, [user, pathname]);
 
     if (loading) {
         return <h1>Loading...</h1>
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const loggedIn = await login(email, password);
+        if (loggedIn) {
+            router.push('/profile');
+        }
+    };
 
     return (
         <>

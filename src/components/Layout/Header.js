@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 
 const Header = () => {
     const { user, logout } = useContext(AuthContext);
-    console.log(user);
     const router = useRouter();
     const handleLogout = async () => {
         await logout();
