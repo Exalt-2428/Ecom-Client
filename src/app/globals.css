@@ -5,3 +5,17 @@
 body {
   color: black;
 }
+
+/* Initially set the submenu to be hidden */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  z-index: 1;
+}
+
+/* Show the submenu when the parent list item is hovered */
+.nav-item:hover .submenu {
+  display: block;
+}

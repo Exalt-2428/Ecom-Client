@@ -6,7 +6,7 @@ import Header from "../../components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 
 const Profile = () => {
-  const { loading, isLoggedIn } = useContext(AuthContext);
+  const { loading, isLoggedIn, isSuperAdmin, getAdmins } = useContext(AuthContext);
     const router = useRouter();
     const pathname = usePathname();
 

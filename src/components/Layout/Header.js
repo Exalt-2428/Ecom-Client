@@ -18,6 +18,11 @@ const Header = () => {
                 {user ? (
                     <div className='flex gap-8'>
                         <h1 className='text-black'>Welcome, {user.firstName}!</h1>
+                        {user.isSuperAdmin && (
+                            <div className='flex gap-4'>
+                               <a href='/superadmin/dashboard' className='text-red-500'>SuperAdmin</a>
+                            </div>
+                        )}
                         <button className='text-black' onClick={handleLogout}>Logout</button>
                     </div>
                 ) : (
